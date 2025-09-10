@@ -3,11 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "tsx watch ./src/bin/server",
-    "start": "node ./dist/bin/server.js",
-    "build": "rimraf dist && npx tsc",
-    "postbuild": "copyfiles -u 1 src/views/*.null dist",
-    "prestart": "npm run build"
+    "dev": "nodemon ./src/bin/server.js",
+    "start": "node ./src/bin/server.js"
   },
   "dependencies": {
     "chalk": "^5.4.1",
@@ -16,18 +13,10 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@types/cookie-parser": "^1.4.8",
-    "@types/express": "^5.0.2",
-    "@types/http-errors": "^2.0.4",
-    "@types/morgan": "^1.9.9",
-    "@types/node": "^22.15.19",
-    "copyfiles": "^2.4.1",
     "eslint": "^9.27.0",
+    "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
-    "prisma": "^6.15.0",
-    "rimraf": "^6.0.1",
-    "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "prisma": "^6.16.0"
   },
   "type": "module"
 }
