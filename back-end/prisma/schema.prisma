@@ -13,3 +13,11 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+// Nomes de model no Prisma devem estar
+// no singular e iniciar com LetraMaiuscula
+model Categoria {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  descricao   String
+}
+
