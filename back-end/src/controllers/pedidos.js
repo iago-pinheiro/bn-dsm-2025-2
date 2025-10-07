@@ -12,7 +12,7 @@ controller.create = async function(req, res) {
     ("req")
   */
   try {
-    await prisma.cliente.create({ data: req.body })
+    await prisma.pedido.create({ data: req.body })
 
     // Envia um código de sucesso ao front-end
     // HTTP 201: Created
@@ -33,10 +33,10 @@ controller.retrieveAll = async function(req, res) {
 
     const include = includeRelations(req.query)
 
-    // Manda buscar todos os clientes cadastrados no BD
-    const result = await prisma.cliente.findMany({
+    // Manda buscar todas os pedidos cadastradas no BD
+    const result = await prisma.pedido.findMany({
       include,
-      orderBy: [ { nome: 'asc' }]  // Ordem ASCendente
+      orderBy: [ { num_pedido: 'asc' }]  // Ordem ASCendente
     })
 
     // Retorna os dados obtidos ao cliente com o status
@@ -62,7 +62,7 @@ controller.retrieveOne = async function(req, res) {
     // Manda recuperar o documento no servidor de BD
     // usando como critério um id informado no parâmetro
     // da requisição
-    const result = await prisma.cliente.findUnique({
+    const result = await prisma.pedido.findUnique({
       include,
       where: { id: req.params.id }
     })
@@ -87,7 +87,7 @@ controller.update = async function(req, res) {
   try {
     // Busca o documento passado como parâmetro e, caso o documento seja
     // encontrado, atualiza-o com as informações contidas em req.body
-    await prisma.cliente.update({
+    await prisma.pedido.update({
       where: { id: req.params.id },
       data: req.body
     })
@@ -116,7 +116,7 @@ controller.delete = async function(req,res) {
   try {
     // Busca o documento pelo id passado como parâmetro 
     // e efetua a exclusão, caso o documento seja encontrado
-    await prisma.cliente.delete({
+    await prisma.pedido.delete({
       where: { id: req.params.id }
     })
 
