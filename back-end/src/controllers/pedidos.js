@@ -111,8 +111,15 @@ controller.update = async function(req, res) {
 
 controller.delete = async function(req, res) {
   try {
-    // Busca o documento pelo id passado como parâmetro
-    // e efetua a exclusão, caso o documento seja encontrado
+    // 1. Exclui todos os itens (filhos) pertecentes
+    // ao pedido (pai)
+    await prisma.itemPedido.deleteMany({
+      where: { pedido_id: req.params.id }
+    })
+
+    // 2. Busca o documento (pedido) pelo id passado 
+    // como parâmetro e efetua a exclusão, caso 
+    // o documento seja encontrado
     await prisma.pedido.delete({
       where: { id: req.params.id }
     })
@@ -127,7 +134,7 @@ controller.delete = async function(req, res) {
     // P2025: erro do Prisma referente a objeto não encontrado
     if(error?.code === 'P2025') {
       // Não encontrou e não excluiu ~> retorna HTTP 404: Not Found
-      res.status(404).end()
+      res.status(44).end()
     }
     else {    // Outros tipos de erro
       // Envia o erro ao front-end, com código de erro

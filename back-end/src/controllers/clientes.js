@@ -1,6 +1,5 @@
-import { includeRelations } from '../lib/utils.js'
-
 import prisma from '../database/client.js'
+import { includeRelations } from '../lib/utils.js'
 
 const controller = {}   // Objeto vazio
 
@@ -33,7 +32,7 @@ controller.retrieveAll = async function(req, res) {
 
     const include = includeRelations(req.query)
 
-    // Manda buscar todos os clientes cadastrados no BD
+    // Manda buscar todas as categorias cadastradas no BD
     const result = await prisma.cliente.findMany({
       include,
       orderBy: [ { nome: 'asc' }]  // Ordem ASCendente
@@ -52,7 +51,6 @@ controller.retrieveAll = async function(req, res) {
     res.status(500).send(error)
   }
 }
-
 
 controller.retrieveOne = async function(req, res) {
   try {
@@ -81,7 +79,6 @@ controller.retrieveOne = async function(req, res) {
     res.status(500).send(error)
   }
 }
-
 
 controller.update = async function(req, res) {
   try {
@@ -112,15 +109,15 @@ controller.update = async function(req, res) {
   }
 }
 
-controller.delete = async function(req,res) {
+controller.delete = async function(req, res) {
   try {
-    // Busca o documento pelo id passado como parâmetro 
+    // Busca o documento pelo id passado como parâmetro
     // e efetua a exclusão, caso o documento seja encontrado
     await prisma.cliente.delete({
       where: { id: req.params.id }
     })
 
-    // Encontrou e excluiu -> retorna HTTP 204: No Content
+    // Encontrou e excluiu ~> retorna HTTP 204: No Content
     res.status(204).end()
   }
   catch(error) {

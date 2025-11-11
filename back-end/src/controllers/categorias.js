@@ -1,4 +1,5 @@
 import prisma from '../database/client.js'
+import { includeRelations } from '../lib/utils.js'
 
 const controller = {}   // Objeto vazio
 
@@ -28,8 +29,11 @@ controller.create = async function(req, res) {
 
 controller.retrieveAll = async function(req, res) {
   try {
+    const include = includeRelations(req.query)
+    
     // Manda buscar todas as categorias cadastradas no BD
     const result = await prisma.categoria.findMany({
+      include,
       orderBy: [ { descricao: 'asc' }]  // Ordem ASCendente
     })
 
@@ -49,10 +53,13 @@ controller.retrieveAll = async function(req, res) {
 
 controller.retrieveOne = async function(req, res) {
   try {
+    const include = includeRelations(req.query)
+
     // Manda recuperar o documento no servidor de BD
     // usando como critério um id informado no parâmetro
     // da requisição
     const result = await prisma.categoria.findUnique({
+      include,
       where: { id: req.params.id }
     })
 
@@ -100,15 +107,15 @@ controller.update = async function(req, res) {
   }
 }
 
-controller.delete = async function(req,res) {
+controller.delete = async function(req, res) {
   try {
-    // Busca o documento pelo id passado como parâmetro 
+    // Busca o documento pelo id passado como parâmetro
     // e efetua a exclusão, caso o documento seja encontrado
     await prisma.categoria.delete({
       where: { id: req.params.id }
     })
 
-    // Encontrou e excluiu -> retorna HTTP 204: No Content
+    // Encontrou e excluiu ~> retorna HTTP 204: No Content
     res.status(204).end()
   }
   catch(error) {
